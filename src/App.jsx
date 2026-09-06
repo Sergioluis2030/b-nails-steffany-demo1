@@ -115,10 +115,6 @@ function Hero({ onReservar }) {
               </div>
             </div>
           </Card>
-          <div className="absolute -bottom-5 right-0 bg-white rounded-2xl shadow-lg border border-cocoa-100 px-4 py-3 flex items-center gap-3">
-            <div className="w-9 h-9 rounded-full bg-caramel-300/30 flex items-center justify-center">💆‍♀️</div>
-            <div><p className="text-[12px] font-semibold text-cocoa-800">Cita confirmada</p><p className="text-[10px] text-cocoa-400">María • Manicure 🌸</p></div>
-          </div>
         </div>
       </div>
     </section>
@@ -314,9 +310,20 @@ function Citas({ selectedService }) {
           <Card className="lg:col-span-2 border-cocoa-100">
             <h4 className="font-bold text-cocoa-800 text-[16px]">Información del spa</h4>
             <div className="mt-5 space-y-4">
-              <div className="flex gap-3 items-start p-3.5 rounded-2xl bg-cream-50 border border-cocoa-100"><span className="w-10 h-10 rounded-xl bg-white flex items-center justify-center text-[18px]">📍</span><div><p className="text-[13px] font-semibold text-cocoa-800">Dirección</p><p className="text-[12px] text-cocoa-500 mt-0.5">Av. Primavera #123, Col. Centro</p></div></div>
-              <div className="flex gap-3 items-start p-3.5 rounded-2xl bg-cream-50 border border-cocoa-100"><span className="w-10 h-10 rounded-xl bg-white flex items-center justify-center text-[18px]">🕒</span><div><p className="text-[13px] font-semibold text-cocoa-800">Horario</p><p className="text-[12px] text-cocoa-500 mt-0.5">Lun - Sáb: 9:00 - 19:00 · Dom: citas previas</p></div></div>
-              <div className="flex gap-3 items-start p-3.5 rounded-2xl bg-cream-50 border border-cocoa-100"><span className="w-10 h-10 rounded-xl bg-white flex items-center justify-center text-[18px]">📞</span><div><p className="text-[13px] font-semibold text-cocoa-800">WhatsApp</p><p className="text-[12px] text-cocoa-500 mt-0.5">+52 55 0000 1234</p></div></div>
+              <div className="flex gap-3 items-start p-3.5 rounded-2xl bg-cream-50 border border-cocoa-100"><span className="w-10 h-10 rounded-xl bg-white flex items-center justify-center text-[18px]">📍</span><div><p className="text-[13px] font-semibold text-cocoa-800">Dirección</p><p className="text-[12px] text-cocoa-500 mt-0.5">los jazmines 107 dep 401 urb el rocío Bellavista,  callao </p></div></div>
+              <div className="flex gap-3 items-start p-3.5 rounded-2xl bg-cream-50 border border-cocoa-100"><span className="w-10 h-10 rounded-xl bg-white flex items-center justify-center text-[18px]">🕒</span><div><p className="text-[13px] font-semibold text-cocoa-800">Horario</p><p className="text-[12px] text-cocoa-500 mt-0.5">Lunes a sábados de 8 am  a 6 pm </p></div></div>
+              <a 
+                href="https://wa.me/51922948959?text=Hola%20B-Nails%20Steffany!%20Me%20gustaría%20agendar%20una%20cita%20para%20manicure.%20¿Tienen%20disponibilidad%20esta%20semana?%20💅" 
+                target="_blank" 
+                rel="noopener noreferrer" 
+                className="flex gap-3 items-start p-3.5 rounded-2xl bg-cream-50 border border-cocoa-100 hover:bg-cream-100 transition cursor-pointer"
+              >
+                <span className="w-10 h-10 rounded-xl bg-white flex items-center justify-center text-[18px]">📞</span>
+                <div>
+                  <p className="text-[13px] font-semibold text-cocoa-800">WhatsApp</p>
+                  <p className="text-[12px] text-cocoa-500 mt-0.5">+51922948959</p>
+                </div>
+              </a>
               <div className="flex gap-3 items-start p-3.5 rounded-2xl bg-cream-50 border border-cocoa-100"><span className="w-10 h-10 rounded-xl bg-white flex items-center justify-center text-[18px]">💡</span><div><p className="text-[13px] font-semibold text-cocoa-800">Consejo</p><p className="text-[12px] text-cocoa-500 mt-0.5">Llega 5 min antes para elegir tu tono favorito del catálogo.</p></div></div>
             </div>
           </Card>
