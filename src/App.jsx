@@ -1,7 +1,21 @@
 import { useState, useEffect } from "react";
 import logo from "./assets/b-nails-logo.jpg";
 import { servicios, testimonios, horariosDisponibles, cardsDestacadas } from "./data/mockData";
+import image1 from "./gallery-images/image1.jpeg";
+import image2 from "./gallery-images/image2.jpeg";
+import image3 from "./gallery-images/image3.jpeg";
+import image4 from "./gallery-images/image4.jpeg";
+import image5 from "./gallery-images/image5.jpeg";
+import image6 from "./gallery-images/image6.jpeg";
 
+const imagenesGaleria = [
+  { id: 1, src: image1, alt: "Manicure diseño 1" },
+  { id: 2, src: image2, alt: "Manicure diseño 2" },
+  { id: 3, src: image3, alt: "Manicure diseño 3" },
+  { id: 4, src: image4, alt: "Manicure diseño 4" },
+  { id: 5, src: image5, alt: "Manicure diseño 5" },
+  { id: 6, src: image6, alt: "Manicure diseño 6" },
+];
 function Card({ children, className = "" }) {
   return <div className={`bg-white rounded-2xl shadow-soft border border-cocoa-100/60 p-6 ${className}`}>{children}</div>;
 }
@@ -28,7 +42,7 @@ function Navbar({ onReservar }) {
     { href: "#servicios", label: "Servicios" },
     { href: "#nosotras", label: "Nosotras" },
     { href: "#citas", label: "Citas" },
-    { href: "#opiniones", label: "Opiniones" },
+     { href: "#galeria", label: "Galería" },
     { href: "#contacto", label: "Contacto" },
   ];
   return (
@@ -193,6 +207,73 @@ function Nosotras() {
   );
 }
 
+function Galeria() {
+  const [selectedImage, setSelectedImage] = useState(null);
+
+  return (
+    <section id="galeria" className="py-20 bg-cream-50">
+      <div className="max-w-6xl mx-auto px-5">
+        <div className="text-center max-w-[560px] mx-auto">
+          <Badge className="bg-white border-gold-300 text-caramel-600">📸 Galería</Badge>
+          <h2 className="mt-5 font-display text-[34px] font-bold text-cocoa-800 tracking-tight">
+            Nuestros trabajos
+          </h2>
+          <p className="mt-4 text-[14px] text-cocoa-500 leading-relaxed">
+            Descubre algunos de los diseños que hemos creado para nuestras clientas. 
+            Cada uña es una obra de arte única.
+          </p>
+        </div>
+
+        <div className="mt-12 grid grid-cols-2 md:grid-cols-3 lg:grid-cols-3 gap-4">
+          {imagenesGaleria.map((img) => (
+            <div 
+              key={img.id}
+              className="group relative overflow-hidden rounded-2xl cursor-pointer shadow-sm hover:shadow-xl transition-all duration-300 hover:-translate-y-1"
+              onClick={() => setSelectedImage(img)}
+            >
+              <div className="aspect-square overflow-hidden">
+                <img 
+                  src={img.src} 
+                  alt={img.alt}
+                  className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
+                />
+              </div>
+              <div className="absolute inset-0 bg-gradient-to-t from-cocoa-800/60 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-end p-4">
+                <p className="text-white text-sm font-medium">{img.alt}</p>
+              </div>
+            </div>
+          ))}
+        </div>
+
+        {/* Modal para ver imagen ampliada */}
+        {selectedImage && (
+          <div 
+            className="fixed inset-0 z-50 bg-cocoa-950/90 flex items-center justify-center p-4 backdrop-blur-sm"
+            onClick={() => setSelectedImage(null)}
+          >
+            <div className="relative max-w-3xl w-full bg-white rounded-2xl overflow-hidden shadow-2xl">
+              <button 
+                onClick={() => setSelectedImage(null)}
+                className="absolute top-4 right-4 w-10 h-10 rounded-full bg-white/90 shadow-lg flex items-center justify-center text-cocoa-800 hover:bg-white transition z-10"
+              >
+                ✕
+              </button>
+              <img 
+                src={selectedImage.src} 
+                alt={selectedImage.alt}
+                className="w-full h-auto max-h-[80vh] object-contain"
+              />
+              <div className="p-4 text-center bg-white">
+                <p className="text-cocoa-800 font-medium">{selectedImage.alt}</p>
+              </div>
+            </div>
+          </div>
+        )}
+      </div>
+    </section>
+  );
+}
+
 function Citas({ selectedService }) {
   const [form, setForm] = useState({ nombre: "", telefono: "", email: "", servicio: "", fecha: "", hora: "", notas: "" });
   const [toast, setToast] = useState("");
@@ -243,34 +324,27 @@ function Citas({ selectedService }) {
             <form onSubmit={submit} className="space-y-5">
               <div className="grid md:grid-cols-2 gap-4">
                 <div>
-                  <label className="text-[11px] font-semibold text-cocoa-600 tracking-wide">Nombre completo *</label>
+                  <label className="text-[12px] font-black text-cocoa-900 tracking-wide">Nombre completo *</label>
                   <input value={form.nombre} onChange={set("nombre")} placeholder="Tu nombre" className="mt-1.5 w-full px-4 py-3 rounded-xl border border-cocoa-200 bg-white focus:ring-2 focus:ring-gold-300/40 focus:border-cocoa-400 outline-none text-[14px] placeholder:text-cocoa-300" />
                 </div>
                 <div>
-                  <label className="text-[11px] font-semibold text-cocoa-600 tracking-wide">Teléfono *</label>
+                  <label className="text-[12px] font-black text-cocoa-900 tracking-wide">Teléfono *</label>
                   <input value={form.telefono} onChange={set("telefono")} placeholder="55 1234 5678" className="mt-1.5 w-full px-4 py-3 rounded-xl border border-cocoa-200 bg-white focus:ring-2 focus:ring-gold-300/40 focus:border-cocoa-400 outline-none text-[14px] placeholder:text-cocoa-300" />
                 </div>
               </div>
               <div className="grid md:grid-cols-2 gap-4">
                 <div>
-                  <label className="text-[11px] font-semibold text-cocoa-600 tracking-wide">Correo (opcional)</label>
+                  <label className="text-[12px] font-black text-cocoa-900 tracking-wide">Correo (opcional)</label>
                   <input value={form.email} onChange={set("email")} placeholder="tu@email.com" className="mt-1.5 w-full px-4 py-3 rounded-xl border border-cocoa-200 bg-white focus:ring-2 focus:ring-gold-300/40 focus:border-cocoa-400 outline-none text-[14px] placeholder:text-cocoa-300" />
-                </div>
-                <div>
-                  <label className="text-[11px] font-semibold text-cocoa-600 tracking-wide">Servicio *</label>
-                  <select value={form.servicio} onChange={set("servicio")} className="mt-1.5 w-full px-4 py-3 rounded-xl border border-cocoa-200 bg-white focus:ring-2 focus:ring-gold-300/40 focus:border-cocoa-400 outline-none text-[14px]">
-                    <option value="">Selecciona un servicio</option>
-                    {servicios.map(s => <option key={s.id} value={s.id}>{s.nombre} · S/ {s.precio}</option>)}
-                  </select>
                 </div>
               </div>
               <div className="grid md:grid-cols-2 gap-4">
                 <div>
-                  <label className="text-[11px] font-semibold text-cocoa-600 tracking-wide">Fecha *</label>
+                  <label className="text-[12px] font-black text-cocoa-900 tracking-wide">Fecha *</label>
                   <input type="date" min={hoy} value={form.fecha} onChange={set("fecha")} className="mt-1.5 w-full px-4 py-3 rounded-xl border border-cocoa-200 bg-white focus:ring-2 focus:ring-gold-300/40 focus:border-cocoa-400 outline-none text-[14px]" />
                 </div>
                 <div>
-                  <label className="text-[11px] font-semibold text-cocoa-600 tracking-wide">Horario *</label>
+                  <label className="text-[12px] font-black text-cocoa-900 tracking-wide">Horario *</label>
                   <div className="mt-2 grid grid-cols-4 gap-2">
                     {horariosDisponibles.map(h => {
                       const ocupada = ocupadas.includes(h);
@@ -284,7 +358,7 @@ function Citas({ selectedService }) {
                 </div>
               </div>
               <div>
-                <label className="text-[11px] font-semibold text-cocoa-600 tracking-wide">Notas (opcional)</label>
+                <label className="text-[12px] font-black text-cocoa-900 tracking-wide">Notas (opcional)</label>
                 <textarea value={form.notas} onChange={set("notas")} placeholder="¿Algún diseño, color o preferencia? Cuéntanos" rows={2} className="mt-1.5 w-full px-4 py-3 rounded-xl border border-cocoa-200 bg-white focus:ring-2 focus:ring-gold-300/40 focus:border-cocoa-400 outline-none text-[14px] placeholder:text-cocoa-300" />
               </div>
               <button className="w-full bg-gold-450 hover:bg-gold-550 text-white py-4 rounded-xl font-semibold text-[15px] shadow-[0_6px_20px_rgba(180,138,76,0.35)] transition">Confirmar reservación 💅</button>
@@ -294,32 +368,6 @@ function Citas({ selectedService }) {
         </div>
       </div>
       <Toast msg={toast} onClose={() => setToast("")} />
-    </section>
-  );
-}
-
-function Opiniones() {
-  return (
-    <section id="opiniones" className="py-20 bg-cream-50">
-      <div className="max-w-6xl mx-auto px-5">
-        <div className="text-center max-w-[560px] mx-auto">
-          <Badge className="bg-white border-gold-300 text-caramel-600">💬 Opiniones</Badge>
-          <h2 className="mt-5 font-display text-[34px] font-bold text-cocoa-800 tracking-tight">Lo que dicen nuestras clientas</h2>
-          <p className="mt-4 text-[14px] text-cocoa-500">La confianza se construye con cada cita. Esto es lo que opinan de nosotras.</p>
-        </div>
-        <div className="mt-12 grid md:grid-cols-2 lg:grid-cols-4 gap-5">
-          {testimonios.map(t => (
-            <Card key={t.id} className="flex flex-col hover:shadow-md transition">
-              <div className="text-gold-500 text-[14px] tracking-widest">{"★".repeat(t.estrellas)}</div>
-              <p className="mt-3 text-[13px] text-cocoa-600 leading-relaxed flex-1">"{t.texto}"</p>
-              <div className="mt-5 flex items-center gap-3 pt-4 border-t border-cocoa-100">
-                <div className="w-10 h-10 rounded-full bg-caramel-300/30 flex items-center justify-center text-[13px] font-bold text-cocoa-700">{t.nombre[0]}</div>
-                <div><p className="text-[13px] font-semibold text-cocoa-800">{t.nombre}</p><p className="text-[11px] text-cocoa-400">{t.servicio}</p></div>
-              </div>
-            </Card>
-          ))}
-        </div>
-      </div>
     </section>
   );
 }
@@ -365,7 +413,7 @@ function Contacto() {
         </div>
         <div className="mt-10 pt-6 border-t border-white/10 flex flex-col sm:flex-row items-center justify-between gap-3">
           <p className="text-[11px] text-white/30">© 2026 B-Nails Steffany · Todos los derechos reservados</p>
-          <p className="text-[11px] text-white/30">Hecho con 💅 · 100% Frontend</p>
+          <p className="text-[11px] text-white/30">Made with ChechoBeatmaker</p>
         </div>
       </div>
     </footer>
@@ -385,8 +433,8 @@ export default function App() {
       <Hero onReservar={scrollTo} />
       <Servicios onReservar={scrollTo} />
       <Nosotras />
+      <Galeria />
       <Citas selectedService={pickService} />
-      <Opiniones />
       <Contacto />
     </div>
   );

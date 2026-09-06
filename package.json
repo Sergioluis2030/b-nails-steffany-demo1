@@ -3,7 +3,7 @@
   "private": true,
   "version": "1.0.0",
   "type": "module",
-  "homepage": "https://Sergioluis2030.github.io/b-nails-steffany",
+  "homepage": "https://Sergioluis2030.github.io/b-nails-steffany-demo1",
   "scripts": {
     "dev": "vite",
     "build": "vite build",
