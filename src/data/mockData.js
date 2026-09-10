@@ -1,10 +1,10 @@
 export const servicios = [
-  {id:1,nombre:"Manicure Clásico",desc:"Limpieza, limado, cutículas y esmaltado clásico con acabado impecable.",precio:55,tiempo:"60 min",icon:"💅",popular:false},
-  {id:2,nombre:"Manicure Semipermanente",desc:"Esmaltado en gel que dura hasta 3 semanas sin perder el brillo.",precio:95,tiempo:"75 min",icon:"✨",popular:true},
-  {id:3,nombre:"Manicure Acrílico",desc:"Uñas esculpidas con acrílico de máxima resistencia y forma perfecta.",precio:130,tiempo:"90 min",icon:"💎",popular:false},
-  {id:4,nombre:"Pedicure Spa",desc:"Tratamiento completo de pies con exfoliación, hidratación y masaje.",precio:100,tiempo:"80 min",icon:"🦶",popular:false},
-  {id:5,nombre:"Nail Art",desc:"Diseños personalizados, francesa, degradados y arte a mano libre.",precio:70,tiempo:"60 min",icon:"🎨",popular:false},
-  {id:6,nombre:"Retiro + Mantenimiento",desc:"Retiro profesional y mantenimiento de gel o acrílico existente.",precio:45,tiempo:"45 min",icon:"💆‍♀️",popular:false},
+  {id:1,nombre:"Manicure Clásico",desc:"Limpieza, limado, cutículas y esmaltado clásico con acabado impecable.",precio:70,tiempo:"60 min",icon:"💅",popular:false},
+  {id:2,nombre:"Nivelaciòn Builder Gel",desc:"tècnica de manicura que utiliza un gel de alta densidad para fortalecer las uñas naturales",precio:85,tiempo:"75 min",icon:"✨",popular:true},
+  {id:3,nombre:"Uñas Acrilicas",desc:"Uñas esculpidas con acrílico de máxima resistencia y forma perfecta.",precio:100,tiempo:"90 min",icon:"💎",popular:false},
+  {id:4,nombre:"Pedicure",desc:"Tratamiento completo de pies con exfoliación, hidratación y masaje.",precio:60,tiempo:"80 min",icon:"🦶",popular:false},
+  {id:5,nombre:"Nivelaciòn Base Rubber",desc:"ideal para  uñas cortas y naturales, ya que aporta flexibilidad y el refuerzo exacto que necesitan sin añadir un grosos de rigidez.",precio:70,tiempo:"60 min",icon:"🎨",popular:false},
+  {id:6,nombre:"Polygel",desc:"Tècnica hibrida que combina la fuerza del acrilico con la ligereza del gel",precio:90,tiempo:"45 min",icon:"💆‍♀️",popular:false},
 ];
 
 export const testimonios = [
@@ -14,7 +14,7 @@ export const testimonios = [
   {id:4,nombre:"Daniela Torres",servicio:"Pedicure Spa",texto:"El pedicure spa es una experiencia. Mis pies quedaron suaves y las uñas divinas. 100% recomendado para consentirte.",estrellas:5},
 ];
 
-export const horariosDisponibles = ["09:00","10:00","11:00","12:00","13:00","15:00","16:00","17:00","18:00"];
+export const horariosDisponibles = ["08:00","10:00","12:00","14:00","16:00","18:00"];
 
 export const cardsDestacadas = [
   {icon:"🛡️",titulo:"Higiene garantizada",texto:"Materiales 100% esterilizados y desechables en cada servicio."},

@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import logo from "./assets/b-nails-logo.jpg";
+import logo from "./assets/B-Nails-logo.jpg";
 import { servicios, testimonios, horariosDisponibles, cardsDestacadas } from "./data/mockData";
 import image1 from "./gallery-images/image1.jpeg";
 import image2 from "./gallery-images/image2.jpeg";
@@ -49,9 +49,9 @@ function Navbar({ onReservar }) {
     <header className="fixed top-0 inset-x-0 z-40 bg-cream-50/80 backdrop-blur-lg border-b border-cocoa-100">
       <div className="max-w-6xl mx-auto px-5 h-[76px] flex items-center justify-between">
         <a href="#inicio" className="flex items-center gap-3" onClick={(e) => { e.preventDefault(); onReservar("inicio"); }}>
-          <img src={logo} alt="B-Nails Steffany" className="w-11 h-11 rounded-xl object-cover shadow-sm border border-gold-300" />
+          <img src={logo} alt="Beautiful Nails Estefany" className="w-11 h-11 rounded-xl object-cover shadow-sm border border-gold-300" />
           <div className="leading-none">
-            <p className="font-bold text-cocoa-800 font-display text-[17px]">B-Nails <span className="text-caramel-600">Steffany</span></p>
+            <p className="font-bold text-cocoa-800 font-display text-[17px]">Beautiful Nails <span className="text-caramel-600">Estefany</span></p>
             <p className="text-[10px] text-cocoa-400 tracking-widest uppercase mt-1">spa &amp; manicure</p>
           </div>
         </a>
@@ -88,7 +88,7 @@ function Hero({ onReservar }) {
             Belleza y elegancia para <span className="text-caramel-600">tus uñas</span>
           </h1>
           <p className="mt-6 text-[15px] text-cocoa-500 leading-relaxed max-w-[460px]">
-            En B-Nails Steffany convertimos tus manos y pies en una obra de arte.
+            En Beautiful Nails Estefany convertimos tus manos y pies en una obra de arte.
             Manicure, acrílico, nail art y pedicure spa con productos premium y un
             servicio que te hace sentir especial.
           </p>
@@ -105,7 +105,7 @@ function Hero({ onReservar }) {
         <div className="relative flex justify-center">
           <div className="absolute -top-6 -left-2 w-20 h-20 rounded-2xl bg-gold-200/60 blur-xl" />
           <Card className="w-full max-w-[380px] p-0 overflow-hidden border-cocoa-100 shadow-[0_24px_48px_rgba(42,34,29,0.12)]">
-            <img src={logo} alt="B-Nails Steffany" className="w-full h-[280px] object-cover" />
+            <img src={logo} alt="Beautiful Nails Estefany" className="w-full h-[280px] object-cover" />
             <div className="p-6">
               <p className="font-display font-bold text-cocoa-800 text-[20px]">Manicure de ensueño</p>
               <p className="text-[13px] text-cocoa-500 mt-1.5">Con toda la elegancia que mereces. Di adiós a las uñas descuidadas.</p>
@@ -164,11 +164,11 @@ function Nosotras() {
           <div>
             <Badge className="bg-white/10 text-gold-300 border-white/20">Por qué elegirnos</Badge>
             <h2 className="mt-5 font-display text-[34px] font-bold tracking-tight leading-tight">
-              Un espacio pensado para tu <span className="text-gold-300">bienestar y belleza</span>
+              Un espacio pensado para tu <span className="text-gold-300">bienestar</span>
             </h2>
             <p className="mt-4 text-[14px] text-white/70 leading-relaxed max-w-[460px]">
-              Detrás de B-Nails Steffany hay profesionalismo, cuidado y pasión por los
-              detalles. Higiene de primer nivel, productos de lujo y un ambiente que
+              Detrás de Beautiful Nails Estefany hay profesionalismo, cuidado y pasión por los
+              detalles. Higiene de primer nivel, productos de calidad y un ambiente que
               invita a relajarte desde que cruzas la puerta.
             </p>
             <div className="mt-8 space-y-4">
@@ -313,7 +313,7 @@ function Citas({ selectedService }) {
               <div className="flex gap-3 items-start p-3.5 rounded-2xl bg-cream-50 border border-cocoa-100"><span className="w-10 h-10 rounded-xl bg-white flex items-center justify-center text-[18px]">📍</span><div><p className="text-[13px] font-semibold text-cocoa-800">Dirección</p><p className="text-[12px] text-cocoa-500 mt-0.5">los jazmines 107 dep 401 urb el rocío Bellavista,  callao </p></div></div>
               <div className="flex gap-3 items-start p-3.5 rounded-2xl bg-cream-50 border border-cocoa-100"><span className="w-10 h-10 rounded-xl bg-white flex items-center justify-center text-[18px]">🕒</span><div><p className="text-[13px] font-semibold text-cocoa-800">Horario</p><p className="text-[12px] text-cocoa-500 mt-0.5">Lunes a sábados de 8 am  a 6 pm </p></div></div>
               <a 
-                href="https://wa.me/51922948959?text=Hola%20B-Nails%20Steffany!%20Me%20gustaría%20agendar%20una%20cita%20para%20manicure.%20¿Tienen%20disponibilidad%20esta%20semana?%20💅" 
+                href="https://wa.me/51922948959?text=Hola%20Beautiful Nails%20Estefany!%20Me%20gustaría%20agendar%20una%20cita%20para%20manicure.%20¿Tienen%20disponibilidad%20esta%20semana?%20💅" 
                 target="_blank" 
                 rel="noopener noreferrer" 
                 className="flex gap-3 items-start p-3.5 rounded-2xl bg-cream-50 border border-cocoa-100 hover:bg-cream-100 transition cursor-pointer"
@@ -369,7 +369,6 @@ function Citas({ selectedService }) {
                 <textarea value={form.notas} onChange={set("notas")} placeholder="¿Algún diseño, color o preferencia? Cuéntanos" rows={2} className="mt-1.5 w-full px-4 py-3 rounded-xl border border-cocoa-200 bg-white focus:ring-2 focus:ring-gold-300/40 focus:border-cocoa-400 outline-none text-[14px] placeholder:text-cocoa-300" />
               </div>
               <button className="w-full bg-gold-450 hover:bg-gold-550 text-white py-4 rounded-xl font-semibold text-[15px] shadow-[0_6px_20px_rgba(180,138,76,0.35)] transition">Confirmar reservación 💅</button>
-              <p className="text-center text-[10px] text-cocoa-400 tracking-wide">Solo frontend · Demo de reservación · Sin cargos</p>
             </form>
           </Card>
         </div>
@@ -386,9 +385,9 @@ function Contacto() {
         <div className="grid md:grid-cols-4 gap-10">
           <div className="md:col-span-2">
             <div className="flex items-center gap-3">
-              <img src={logo} alt="B-Nails Steffany" className="w-12 h-12 rounded-xl object-cover border border-gold-400/40 shadow" />
+              <img src={logo} alt="Beautiful Nails Estefany" className="w-12 h-12 rounded-xl object-cover border border-gold-400/40 shadow" />
               <div className="leading-none">
-                <p className="font-bold font-display text-[18px]">B-Nails <span className="text-gold-300">Steffany</span></p>
+                <p className="font-bold font-display text-[18px]">Beautiful Nails <span className="text-gold-300">Estefany</span></p>
                 <p className="text-[10px] text-white/40 tracking-widest uppercase mt-1">spa &amp; manicure</p>
               </div>
             </div>
@@ -411,15 +410,15 @@ function Contacto() {
           <div>
             <p className="font-bold text-[13px] uppercase tracking-widest text-white/70">Contacto</p>
             <div className="mt-4 space-y-2.5 text-[13px] text-white/50">
-              <p>Av. Primavera #123, Centro</p>
-              <p>+52 55 0000 1234</p>
-              <p>hola@bnails.com</p>
-              <p className="pt-2 text-[12px]">Lun - Sáb: 9:00 - 19:00<br />Dom: solo citas previas</p>
+              <p>Los jazmines 107 dep 401 urb el rocío Bellavista, callao</p>
+              <p>+51 922948959</p>
+              <p>Estefanypalencia08@gmail.com</p>
+              <p className="pt-2 text-[12px]">Lun - Sáb: 8:00 - 19:00<br />Dom: solo citas previas</p>
             </div>
           </div>
         </div>
         <div className="mt-10 pt-6 border-t border-white/10 flex flex-col sm:flex-row items-center justify-between gap-3">
-          <p className="text-[11px] text-white/30">© 2026 B-Nails Steffany · Todos los derechos reservados</p>
+          <p className="text-[11px] text-white/30">© 2026 Beautiful Nails Estefany · Todos los derechos reservados</p>
           <p className="text-[11px] text-white/30">Made with ChechoBeatmaker</p>
         </div>
       </div>
