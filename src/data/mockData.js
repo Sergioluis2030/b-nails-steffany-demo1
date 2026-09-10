@@ -14,7 +14,7 @@ export const testimonios = [
   {id:4,nombre:"Daniela Torres",servicio:"Pedicure Spa",texto:"El pedicure spa es una experiencia. Mis pies quedaron suaves y las uñas divinas. 100% recomendado para consentirte.",estrellas:5},
 ];
 
-export const horariosDisponibles = ["08:00","10:00","12:00","14:00","16:00","18:00"];
+export const horariosDisponibles = ["08:00","10:00","12:00","14:00","16:00","18:00", "20:00"];
 
 export const cardsDestacadas = [
   {icon:"🛡️",titulo:"Higiene garantizada",texto:"Materiales 100% esterilizados y desechables en cada servicio."},
