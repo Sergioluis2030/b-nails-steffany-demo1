@@ -7,6 +7,7 @@ import image3 from "./gallery-images/image3.jpeg";
 import image4 from "./gallery-images/image4.jpeg";
 import image5 from "./gallery-images/image5.jpeg";
 import image6 from "./gallery-images/image6.jpeg";
+import qrYape from "./gallery-images/QR-YAPE.jpg";
 
 const imagenesGaleria = [
   { id: 1, src: image1, alt: "Manicure diseño 1" },
@@ -273,7 +274,10 @@ function Galeria() {
 function Citas({ selectedService }) {
   const [form, setForm] = useState({ nombre: "", telefono: "", email: "", servicio: "", fecha: "", hora: "", notas: "" });
   const [toast, setToast] = useState("");
-  const [ocupadas, setOcupadas] = useState(["11:00", "16:00"]);
+  const [ocupadas, setOcupadas] = useState(["11:00"]);
+  const [pagoVisible, setPagoVisible] = useState(false);
+  const [comprobante, setComprobante] = useState(null);
+  const [comprobanteUrl, setComprobanteUrl] = useState("");
   const hoy = new Date().toISOString().slice(0, 10);
 
   useEffect(() => {
@@ -285,10 +289,26 @@ function Citas({ selectedService }) {
     setForm(f => ({ ...f, [k]: v }));
   };
 
-  const submit = (e) => {
-    e.preventDefault();
+  const validarForm = () => {
     if (!form.nombre || !form.telefono || !form.servicio || !form.fecha || !form.hora) {
       setToast("⚠️ Completa nombre, teléfono, servicio, fecha y hora");
+      setTimeout(() => setToast(""), 3000);
+      return false;
+    }
+    return true;
+  };
+
+  const generar = (e) => {
+    e.preventDefault();
+    if (!validarForm()) return;
+    setPagoVisible(true);
+  };
+
+  const submit = (e) => {
+    e.preventDefault();
+    if (!validarForm()) return;
+    if (!comprobante) {
+      setToast("⚠️ Adjunta la captura de tu pago Yape");
       setTimeout(() => setToast(""), 3000);
       return;
     }
@@ -296,6 +316,16 @@ function Citas({ selectedService }) {
     setOcupadas(o => [...o, form.hora]);
     setToast(`💅 ¡Listo ${form.nombre.split(" ")[0]}! Tu ${svc?.nombre ?? "servicio"} quedó reservado el ${form.fecha} a las ${form.hora}.`);
     setForm({ nombre: "", telefono: "", email: "", servicio: "", fecha: "", hora: "", notas: "" });
+    setComprobante(null);
+    setComprobanteUrl("");
+    setPagoVisible(false);
+  };
+
+  const onFileChange = (e) => {
+    const file = e.target.files?.[0];
+    if (!file) return;
+    setComprobante(file);
+    setComprobanteUrl(URL.createObjectURL(file));
   };
 
   return (
@@ -341,6 +371,15 @@ function Citas({ selectedService }) {
               </div>
               <div className="grid md:grid-cols-2 gap-4">
                 <div>
+                  <label className="text-[12px] font-black text-cocoa-900 tracking-wide">Servicio *</label>
+                  <select value={form.servicio} onChange={set("servicio")} className="mt-1.5 w-full px-4 py-3 rounded-xl border border-cocoa-200 bg-white focus:ring-2 focus:ring-gold-300/40 focus:border-cocoa-400 outline-none text-[14px] placeholder:text-cocoa-300">
+                    <option value="">Selecciona un servicio…</option>
+                    {servicios.map(s => (
+                      <option key={s.id} value={String(s.id)}>{s.nombre} — S/ {s.precio}</option>
+                    ))}
+                  </select>
+                </div>
+                <div>
                   <label className="text-[12px] font-black text-cocoa-900 tracking-wide">Correo (opcional)</label>
                   <input value={form.email} onChange={set("email")} placeholder="tu@email.com" className="mt-1.5 w-full px-4 py-3 rounded-xl border border-cocoa-200 bg-white focus:ring-2 focus:ring-gold-300/40 focus:border-cocoa-400 outline-none text-[14px] placeholder:text-cocoa-300" />
                 </div>
@@ -368,7 +407,35 @@ function Citas({ selectedService }) {
                 <label className="text-[12px] font-black text-cocoa-900 tracking-wide">Notas (opcional)</label>
                 <textarea value={form.notas} onChange={set("notas")} placeholder="¿Algún diseño, color o preferencia? Cuéntanos" rows={2} className="mt-1.5 w-full px-4 py-3 rounded-xl border border-cocoa-200 bg-white focus:ring-2 focus:ring-gold-300/40 focus:border-cocoa-400 outline-none text-[14px] placeholder:text-cocoa-300" />
               </div>
-              <button className="w-full bg-gold-450 hover:bg-gold-550 text-white py-4 rounded-xl font-semibold text-[15px] shadow-[0_6px_20px_rgba(180,138,76,0.35)] transition">Confirmar reservación 💅</button>
+              <button type={comprobante ? "submit" : "button"} onClick={comprobante ? undefined : generar} className={`w-full py-4 rounded-xl font-semibold text-[15px] shadow-[0_6px_20px_rgba(180,138,76,0.35)] transition ${comprobante ? "bg-gold-450 hover:bg-gold-550 text-white" : "bg-cocoa-700 hover:bg-cocoa-800 text-white"}`}>{comprobante ? "Confirmar reserva 💅" : "Generar reserva"}</button>
+              {pagoVisible && (
+                <div className="p-5 rounded-2xl border border-gold-300 bg-cream-50">
+                  <p className="text-[13px] font-bold text-cocoa-800 mb-4">💛 Paga con Yape y sube tu comprobante</p>
+                  <div className="space-y-5">
+                    <div className="text-center">
+                      <img src={qrYape} alt="QR Yape de Beautiful Nails Estefany" className="w-full h-auto max-h-[380px] object-contain rounded-xl bg-white border border-cocoa-200 p-3" />
+                      <p className="mt-2 text-[11px] text-cocoa-500">Escanea el QR y realiza tu pago</p>
+                    </div>
+                    <div className="w-full">
+                      <label htmlFor="comprobante" className={`flex flex-col items-center justify-center gap-2 rounded-xl border-2 border-dashed p-6 cursor-pointer transition text-center ${comprobante ? "border-emerald-400 bg-white" : "border-cocoa-300 bg-white hover:border-gold-400"}`}>
+                        {comprobanteUrl ? (
+                          <>
+                            <img src={comprobanteUrl} alt="Comprobante de pago" className="w-36 h-36 object-contain rounded-lg" />
+                            <span className="text-[12px] font-semibold text-emerald-600">✓ {comprobante.name}</span>
+                          </>
+                        ) : (
+                          <>
+                            <span className="text-[22px]">📷</span>
+                            <span className="text-[12px] text-cocoa-600">Sube la captura de tu pago Yape</span>
+                            <span className="text-[11px] text-cocoa-400">PNG o JPG</span>
+                          </>
+                        )}
+                      </label>
+                      <input id="comprobante" type="file" accept="image/*" onChange={onFileChange} className="hidden" />
+                    </div>
+                  </div>
+                </div>
+              )}
             </form>
           </Card>
         </div>
