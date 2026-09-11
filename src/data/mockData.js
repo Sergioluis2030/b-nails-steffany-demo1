@@ -5,6 +5,7 @@ export const servicios = [
   {id:4,nombre:"Pedicure",desc:"Tratamiento completo de pies con exfoliación, hidratación y masaje.",precio:60,tiempo:"80 min",icon:"🦶",popular:false},
   {id:5,nombre:"Nivelaciòn Base Rubber",desc:"ideal para  uñas cortas y naturales, ya que aporta flexibilidad y el refuerzo exacto que necesitan sin añadir un grosos de rigidez.",precio:70,tiempo:"60 min",icon:"🎨",popular:false},
   {id:6,nombre:"Polygel",desc:"Tècnica hibrida que combina la fuerza del acrilico con la ligereza del gel",precio:90,tiempo:"45 min",icon:"💆‍♀️",popular:false},
+  {id:7,nombre:"Personalizado",desc:"Servicio personalizado", personalizado:true, icon:"✏️"}
 ];
 
 export const testimonios = [

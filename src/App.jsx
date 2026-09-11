@@ -135,7 +135,7 @@ function Servicios({ onReservar }) {
           <p className="mt-4 text-[14px] text-cocoa-500 leading-relaxed">Cada servicio incluye higiene profunda, atención personalizada y acabados dignos de revista.</p>
         </div>
         <div className="mt-12 grid md:grid-cols-2 lg:grid-cols-3 gap-5">
-          {servicios.map(s => (
+          {servicios.filter(s => !s.personalizado).map(s => (
             <Card key={s.id} className="flex flex-col hover:shadow-md hover:-translate-y-0.5 transition duration-300">
               <div className="flex justify-between items-start">
                 <div className="w-12 h-12 rounded-2xl bg-cream-100 border border-cocoa-100 flex items-center justify-center text-[22px]">{s.icon}</div>
@@ -374,9 +374,13 @@ function Citas({ selectedService }) {
                   <label className="text-[12px] font-black text-cocoa-900 tracking-wide">Servicio *</label>
                   <select value={form.servicio} onChange={set("servicio")} className="mt-1.5 w-full px-4 py-3 rounded-xl border border-cocoa-200 bg-white focus:ring-2 focus:ring-gold-300/40 focus:border-cocoa-400 outline-none text-[14px] placeholder:text-cocoa-300">
                     <option value="">Selecciona un servicio…</option>
-                    {servicios.map(s => (
-                      <option key={s.id} value={String(s.id)}>{s.nombre} — S/ {s.precio}</option>
-                    ))}
+                    {[...servicios]
+                        .sort((a, b) => (a.personalizado ? -1 : b.personalizado ? 1 : 0))
+                        .map(s => (
+                          <option key={s.id} value={String(s.id)}>
+                            {s.personalizado ? s.nombre : `${s.nombre} — S/ ${s.precio}`}
+                          </option>
+                        ))}
                   </select>
                 </div>
                 <div>
@@ -407,7 +411,6 @@ function Citas({ selectedService }) {
                 <label className="text-[12px] font-black text-cocoa-900 tracking-wide">Notas (opcional)</label>
                 <textarea value={form.notas} onChange={set("notas")} placeholder="¿Algún diseño, color o preferencia? Cuéntanos" rows={2} className="mt-1.5 w-full px-4 py-3 rounded-xl border border-cocoa-200 bg-white focus:ring-2 focus:ring-gold-300/40 focus:border-cocoa-400 outline-none text-[14px] placeholder:text-cocoa-300" />
               </div>
-              <button type={comprobante ? "submit" : "button"} onClick={comprobante ? undefined : generar} className={`w-full py-4 rounded-xl font-semibold text-[15px] shadow-[0_6px_20px_rgba(180,138,76,0.35)] transition ${comprobante ? "bg-gold-450 hover:bg-gold-550 text-white" : "bg-cocoa-700 hover:bg-cocoa-800 text-white"}`}>{comprobante ? "Confirmar reserva 💅" : "Generar reserva"}</button>
               {pagoVisible && (
                 <div className="p-5 rounded-2xl border border-gold-300 bg-cream-50">
                   <p className="text-[13px] font-bold text-cocoa-800 mb-4">💛 Paga con Yape y sube tu comprobante</p>
@@ -436,6 +439,7 @@ function Citas({ selectedService }) {
                   </div>
                 </div>
               )}
+              <button type={comprobante ? "submit" : "button"} onClick={comprobante ? undefined : generar} className={`w-full py-4 rounded-xl font-semibold text-[15px] shadow-[0_6px_20px_rgba(180,138,76,0.35)] transition ${comprobante ? "bg-gold-450 hover:bg-gold-550 text-white" : "bg-cocoa-700 hover:bg-cocoa-800 text-white"}`}>{comprobante ? "Confirmar reserva 💅" : "Generar reserva"}</button>
             </form>
           </Card>
         </div>
