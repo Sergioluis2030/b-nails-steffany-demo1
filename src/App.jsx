@@ -9,6 +9,35 @@ import image5 from "./gallery-images/image5.jpeg";
 import image6 from "./gallery-images/image6.jpeg";
 import qrYape from "./gallery-images/QR-YAPE.jpg";
 
+const API_BASE = "http://localhost:3001/api";
+
+const comprimirImagen = (file, maxDim = 1280, quality = 0.8) =>
+  new Promise((resolve, reject) => {
+    const reader = new FileReader();
+    reader.onload = () => {
+      const img = new Image();
+      img.onload = () => {
+        let { width, height } = img;
+        const escala = Math.min(1, maxDim / Math.max(width, height));
+        width = Math.round(width * escala);
+        height = Math.round(height * escala);
+        const canvas = document.createElement("canvas");
+        canvas.width = width;
+        canvas.height = height;
+        canvas.getContext("2d").drawImage(img, 0, 0, width, height);
+        canvas.toBlob(
+          blob => blob ? resolve(new File([blob], file.name.replace(/\.[^.]+$/, ".jpg"), { type: "image/jpeg" })) : reject(new Error("compresión fallida")),
+          "image/jpeg",
+          quality
+        );
+      };
+      img.onerror = reject;
+      img.src = reader.result;
+    };
+    reader.onerror = reject;
+    reader.readAsDataURL(file);
+  });
+
 const imagenesGaleria = [
   { id: 1, src: image1, alt: "Manicure diseño 1" },
   { id: 2, src: image2, alt: "Manicure diseño 2" },
@@ -272,17 +301,33 @@ function Galeria() {
 }
 
 function Citas({ selectedService }) {
-  const [form, setForm] = useState({ nombre: "", telefono: "", email: "", servicio: "", fecha: "", hora: "", notas: "" });
+  const hoy = new Date().toISOString().slice(0, 10);
+  const [form, setForm] = useState({ nombre: "", telefono: "", email: "", servicio: "", fecha: hoy, hora: "", notas: "" });
   const [toast, setToast] = useState("");
-  const [ocupadas, setOcupadas] = useState(["11:00"]);
+  const [ocupadas, setOcupadas] = useState([]);
   const [pagoVisible, setPagoVisible] = useState(false);
   const [comprobante, setComprobante] = useState(null);
   const [comprobanteUrl, setComprobanteUrl] = useState("");
-  const hoy = new Date().toISOString().slice(0, 10);
 
   useEffect(() => {
     if (selectedService) setForm(f => ({ ...f, servicio: String(selectedService) }));
   }, [selectedService]);
+
+  useEffect(() => {
+    let activo = true;
+    setOcupadas([]);
+    if (!form.fecha) return () => { activo = false; };
+    (async () => {
+      try {
+        const resp = await fetch(`${API_BASE}/reservas/horarios/${form.fecha}`);
+        if (!resp.ok) return;
+        const data = await resp.json();
+        const lista = data?.ocupados;
+        if (activo && Array.isArray(lista)) setOcupadas(lista);
+      } catch { /* backend aún no disponible */ }
+    })();
+    return () => { activo = false; };
+  }, [form.fecha]);
 
   const set = (k) => (e) => {
     const v = e.target.value;
@@ -304,7 +349,7 @@ function Citas({ selectedService }) {
     setPagoVisible(true);
   };
 
-  const submit = (e) => {
+  const submit = async (e) => {
     e.preventDefault();
     if (!validarForm()) return;
     if (!comprobante) {
@@ -313,19 +358,46 @@ function Citas({ selectedService }) {
       return;
     }
     const svc = servicios.find(s => String(s.id) === String(form.servicio));
-    setOcupadas(o => [...o, form.hora]);
-    setToast(`💅 ¡Listo ${form.nombre.split(" ")[0]}! Tu ${svc?.nombre ?? "servicio"} quedó reservado el ${form.fecha} a las ${form.hora}.`);
-    setForm({ nombre: "", telefono: "", email: "", servicio: "", fecha: "", hora: "", notas: "" });
-    setComprobante(null);
-    setComprobanteUrl("");
-    setPagoVisible(false);
+
+    const formData = new FormData();
+    formData.append("nombre", form.nombre);
+    formData.append("telefono", form.telefono);
+    formData.append("servicio", svc ? svc.nombre : form.servicio);
+    formData.append("correo", form.email);
+    formData.append("fecha", form.fecha);
+    formData.append("horario", form.hora);
+    formData.append("notas", form.notas);
+    formData.append("fotoPago", comprobante);
+
+    try {
+      const resp = await fetch(`${API_BASE}/reservas`, {
+        method: "POST",
+        body: formData,
+      });
+      if (!resp.ok) throw new Error(`HTTP ${resp.status}`);
+      setOcupadas(o => [...o, form.hora]);
+      setToast(`💅 ¡Listo ${form.nombre.split(" ")[0]}! Tu ${svc?.nombre ?? "servicio"} quedó reservado el ${form.fecha} a las ${form.hora}.`);
+      setForm({ nombre: "", telefono: "", email: "", servicio: "", fecha: hoy, hora: "", notas: "" });
+      setComprobante(null);
+      setComprobanteUrl("");
+      setPagoVisible(false);
+    } catch (err) {
+      setToast("⚠️ No se pudo enviar la reserva. Inténtalo de nuevo.");
+      setTimeout(() => setToast(""), 3000);
+    }
   };
 
-  const onFileChange = (e) => {
+  const onFileChange = async (e) => {
     const file = e.target.files?.[0];
     if (!file) return;
-    setComprobante(file);
-    setComprobanteUrl(URL.createObjectURL(file));
+    try {
+      const comprimido = await comprimirImagen(file);
+      setComprobante(comprimido);
+      setComprobanteUrl(URL.createObjectURL(comprimido));
+    } catch {
+      setComprobante(file);
+      setComprobanteUrl(URL.createObjectURL(file));
+    }
   };
 
   return (
