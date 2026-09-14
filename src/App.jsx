@@ -9,7 +9,7 @@ import image5 from "./gallery-images/image5.jpeg";
 import image6 from "./gallery-images/image6.jpeg";
 import qrYape from "./gallery-images/QR-YAPE.jpg";
 
-const API_BASE = "http://localhost:3001/api";
+const API_BASE = import.meta.env.VITE_API_BASE;
 
 const comprimirImagen = (file, maxDim = 1280, quality = 0.8) =>
   new Promise((resolve, reject) => {
