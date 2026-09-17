@@ -308,6 +308,7 @@ function Citas({ selectedService }) {
   const [pagoVisible, setPagoVisible] = useState(false);
   const [comprobante, setComprobante] = useState(null);
   const [comprobanteUrl, setComprobanteUrl] = useState("");
+  const [horaManual, setHoraManualState] = useState("");
 
   useEffect(() => {
     if (selectedService) setForm(f => ({ ...f, servicio: String(selectedService) }));
@@ -334,18 +335,53 @@ function Citas({ selectedService }) {
     setForm(f => ({ ...f, [k]: v }));
   };
 
+  const setHoraManual = (e) => {
+    const digitos = e.target.value.replace(/\D/g, "").slice(0, 4);
+    let horaOk = "";
+    for (let i = 0; i < digitos.length; i++) {
+      const d = digitos[i];
+      const permitidos =
+        i === 0 ? "012"
+        : i === 1 ? (horaOk[0] === "2" ? "0123" : "0123456789")
+        : i === 2 ? "012345"
+        : "0123456789";
+      if (permitidos.includes(d)) horaOk += d;
+    }
+    const texto = horaOk.length > 2 ? `${horaOk.slice(0, 2)}:${horaOk.slice(2)}` : horaOk;
+    setHoraManualState(texto);
+    setForm(f => ({ ...f, hora: texto.length === 5 ? texto : "" }));
+  };
+
   const validarForm = () => {
-    if (!form.nombre || !form.telefono || !form.servicio || !form.fecha || !form.hora) {
-      setToast("⚠️ Completa nombre, teléfono, servicio, fecha y hora");
+    if (!form.nombre || !form.telefono || !form.servicio || !form.fecha || !form.hora || !form.email) {
+      setToast("⚠️ Completa nombre, teléfono, correo, servicio, fecha y hora");
+      setTimeout(() => setToast(""), 3000);
+      return false;
+    }
+    if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(form.email)) {
+      setToast("⚠️ Ingresa un correo válido");
       setTimeout(() => setToast(""), 3000);
       return false;
     }
     return true;
   };
 
-  const generar = (e) => {
+  const generar = async (e) => {
     e.preventDefault();
     if (!validarForm()) return;
+    try {
+      const resp = await fetch(`${API_BASE}/reservas/horarios/${form.fecha}`);
+      if (resp.ok) {
+        const data = await resp.json();
+        const ocup = Array.isArray(data?.ocupados) ? data.ocupados : [];
+        setOcupadas(ocup);
+        if (ocup.includes(form.hora)) {
+          setToast("⚠️ Ese horario ya está ocupado. Elige otro.");
+          setTimeout(() => setToast(""), 3000);
+          return;
+        }
+      }
+    } catch { /* si el backend falla, seguimos con el flujo normal */ }
     setPagoVisible(true);
   };
 
@@ -378,6 +414,7 @@ function Citas({ selectedService }) {
       setOcupadas(o => [...o, form.hora]);
       setToast(`💅 ¡Listo ${form.nombre.split(" ")[0]}! Tu ${svc?.nombre ?? "servicio"} quedó reservado el ${form.fecha} a las ${form.hora}.`);
       setForm({ nombre: "", telefono: "", email: "", servicio: "", fecha: hoy, hora: "", notas: "" });
+      setHoraManualState("");
       setComprobante(null);
       setComprobanteUrl("");
       setPagoVisible(false);
@@ -456,7 +493,7 @@ function Citas({ selectedService }) {
                   </select>
                 </div>
                 <div>
-                  <label className="text-[12px] font-black text-cocoa-900 tracking-wide">Correo (opcional)</label>
+                  <label className="text-[12px] font-black text-cocoa-900 tracking-wide">Correo *</label>
                   <input value={form.email} onChange={set("email")} placeholder="tu@email.com" className="mt-1.5 w-full px-4 py-3 rounded-xl border border-cocoa-200 bg-white focus:ring-2 focus:ring-gold-300/40 focus:border-cocoa-400 outline-none text-[14px] placeholder:text-cocoa-300" />
                 </div>
               </div>
@@ -471,11 +508,20 @@ function Citas({ selectedService }) {
                     {horariosDisponibles.map(h => {
                       const ocupada = ocupadas.includes(h);
                       return (
-                        <button type="button" key={h} disabled={ocupada} onClick={() => setForm(f => ({ ...f, hora: h }))} className={`py-2.5 rounded-xl text-[12px] font-semibold border transition ${ocupada ? "bg-cream-100 text-cocoa-300 border-cocoa-100 line-through cursor-not-allowed" : form.hora === h ? "bg-gold-450 text-white border-gold-450 shadow" : "bg-white text-cocoa-600 border-cocoa-200 hover:border-cocoa-400"}`}>
+                        <button type="button" key={h} disabled={ocupada} onClick={() => { setForm(f => ({ ...f, hora: h })); setHoraManualState(""); }} className={`py-2.5 rounded-xl text-[12px] font-semibold border transition ${ocupada ? "bg-cream-100 text-cocoa-300 border-cocoa-100 line-through cursor-not-allowed" : form.hora === h ? "bg-gold-450 text-white border-gold-450 shadow" : "bg-white text-cocoa-600 border-cocoa-200 hover:border-cocoa-400"}`}>
                           {h}
                         </button>
                       );
                     })}
+                  <input
+                    type="text"
+                    inputMode="numeric"
+                    maxLength={5}
+                    placeholder="hh:mm"
+                    value={horaManual}
+                    onChange={setHoraManual}
+                    className="w-full min-w-0 py-2.5 rounded-xl text-[12px] font-semibold text-center border border-cocoa-200 bg-white text-cocoa-600 placeholder:text-cocoa-300 focus:ring-2 focus:ring-gold-300/40 focus:border-cocoa-400 outline-none transition"
+                  />
                   </div>
                 </div>
               </div>
