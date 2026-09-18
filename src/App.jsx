@@ -264,9 +264,6 @@ function Galeria() {
                   className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
                 />
               </div>
-              <div className="absolute inset-0 bg-gradient-to-t from-cocoa-800/60 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-end p-4">
-                <p className="text-white text-sm font-medium">{img.alt}</p>
-              </div>
             </div>
           ))}
         </div>
@@ -289,9 +286,6 @@ function Galeria() {
                 alt={selectedImage.alt}
                 className="w-full h-auto max-h-[80vh] object-contain"
               />
-              <div className="p-4 text-center bg-white">
-                <p className="text-cocoa-800 font-medium">{selectedImage.alt}</p>
-              </div>
             </div>
           </div>
         )}
@@ -449,19 +443,20 @@ function Citas({ selectedService }) {
           <Card className="lg:col-span-2 border-cocoa-100">
             <h4 className="font-bold text-cocoa-800 text-[16px]">Información del spa</h4>
             <div className="mt-5 space-y-4">
-              <div className="flex gap-3 items-start p-3.5 rounded-2xl bg-cream-50 border border-cocoa-100"><span className="w-10 h-10 rounded-xl bg-white flex items-center justify-center text-[18px]">📍</span><div><p className="text-[13px] font-semibold text-cocoa-800">Dirección</p><p className="text-[12px] text-cocoa-500 mt-0.5">los jazmines 107 dep 401 urb el rocío Bellavista,  callao </p></div></div>
+              <a href="https://maps.app.goo.gl/TfBNu9sdrxGyEsUM8" target="_blank" rel="noopener noreferrer" className="group flex gap-3 items-center p-3.5 rounded-2xl bg-cream-50 border border-cocoa-100 hover:bg-cream-100 hover:border-gold-300 transition cursor-pointer"><span className="w-10 h-10 rounded-xl bg-white flex items-center justify-center text-[18px]">📍</span><div className="flex-1"><p className="text-[13px] font-semibold text-cocoa-800">Dirección</p><p className="text-[12px] text-cocoa-500 mt-0.5">calle Los jazmines 107 -  dep 401 urb. el Rocío, Bellavista, Callao </p></div><span className="text-[16px] text-caramel-600 transition-transform duration-300 group-hover:translate-x-1">→</span></a>
               <div className="flex gap-3 items-start p-3.5 rounded-2xl bg-cream-50 border border-cocoa-100"><span className="w-10 h-10 rounded-xl bg-white flex items-center justify-center text-[18px]">🕒</span><div><p className="text-[13px] font-semibold text-cocoa-800">Horario</p><p className="text-[12px] text-cocoa-500 mt-0.5">Lunes a sábados de 8 am  a 6 pm </p></div></div>
               <a 
                 href="https://wa.me/51922948959?text=Hola%20Beautiful Nails%20Estefany!%20Me%20gustaría%20agendar%20una%20cita%20para%20manicure.%20¿Tienen%20disponibilidad%20esta%20semana?%20💅" 
                 target="_blank" 
                 rel="noopener noreferrer" 
-                className="flex gap-3 items-start p-3.5 rounded-2xl bg-cream-50 border border-cocoa-100 hover:bg-cream-100 transition cursor-pointer"
+                className="group flex gap-3 items-center p-3.5 rounded-2xl bg-cream-50 border border-cocoa-100 hover:bg-cream-100 hover:border-gold-300 transition cursor-pointer"
               >
                 <span className="w-10 h-10 rounded-xl bg-white flex items-center justify-center text-[18px]">📞</span>
-                <div>
+                <div className="flex-1">
                   <p className="text-[13px] font-semibold text-cocoa-800">WhatsApp</p>
                   <p className="text-[12px] text-cocoa-500 mt-0.5">+51922948959</p>
                 </div>
+                <span className="text-[16px] text-caramel-600 transition-transform duration-300 group-hover:translate-x-1">→</span>
               </a>
               <div className="flex gap-3 items-start p-3.5 rounded-2xl bg-cream-50 border border-cocoa-100"><span className="w-10 h-10 rounded-xl bg-white flex items-center justify-center text-[18px]">💡</span><div><p className="text-[13px] font-semibold text-cocoa-800">Consejo</p><p className="text-[12px] text-cocoa-500 mt-0.5">Llega 5 min antes para elegir tu tono favorito del catálogo.</p></div></div>
             </div>
@@ -536,6 +531,7 @@ function Citas({ selectedService }) {
                     <div className="text-center">
                       <img src={qrYape} alt="QR Yape de Beautiful Nails Estefany" className="w-full h-auto max-h-[380px] object-contain rounded-xl bg-white border border-cocoa-200 p-3" />
                       <p className="mt-2 text-[11px] text-cocoa-500">Escanea el QR y realiza tu pago</p>
+                      <p className="mt-0.5 text-[11px] font-semibold text-cocoa-700">922948959 - Estefany Palencia Rondón</p>
                     </div>
                     <div className="w-full">
                       <label htmlFor="comprobante" className={`flex flex-col items-center justify-center gap-2 rounded-xl border-2 border-dashed p-6 cursor-pointer transition text-center ${comprobante ? "border-emerald-400 bg-white" : "border-cocoa-300 bg-white hover:border-gold-400"}`}>
@@ -599,7 +595,7 @@ function Contacto() {
           <div>
             <p className="font-bold text-[13px] uppercase tracking-widest text-white/70">Contacto</p>
             <div className="mt-4 space-y-2.5 text-[13px] text-white/50">
-              <p>Los jazmines 107 dep 401 urb el rocío Bellavista, callao</p>
+              <p>calle Los jazmines 107 -  dep 401 urb. el Rocío, Bellavista, Callao</p>
               <p>+51 922948959</p>
               <p>Estefanypalencia08@gmail.com</p>
               <p className="pt-2 text-[12px]">Lun - Sáb: 8:00 - 19:00<br />Dom: solo citas previas</p>
