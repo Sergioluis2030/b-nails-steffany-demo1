@@ -329,6 +329,11 @@ function Citas({ selectedService }) {
     setForm(f => ({ ...f, [k]: v }));
   };
 
+  const setTelefono = (e) => {
+    const v = e.target.value.replace(/\D/g, "").slice(0, 11);
+    setForm(f => ({ ...f, telefono: v }));
+  };
+
   const setHoraManual = (e) => {
     const digitos = e.target.value.replace(/\D/g, "").slice(0, 4);
     let horaOk = "";
@@ -470,7 +475,7 @@ function Citas({ selectedService }) {
                 </div>
                 <div>
                   <label className="text-[12px] font-black text-cocoa-900 tracking-wide">Teléfono *</label>
-                  <input value={form.telefono} onChange={set("telefono")} placeholder="55 1234 5678" className="mt-1.5 w-full px-4 py-3 rounded-xl border border-cocoa-200 bg-white focus:ring-2 focus:ring-gold-300/40 focus:border-cocoa-400 outline-none text-[14px] placeholder:text-cocoa-300" />
+                  <input value={form.telefono} onChange={setTelefono} placeholder="55 1234 5678" className="mt-1.5 w-full px-4 py-3 rounded-xl border border-cocoa-200 bg-white focus:ring-2 focus:ring-gold-300/40 focus:border-cocoa-400 outline-none text-[14px] placeholder:text-cocoa-300" />
                 </div>
               </div>
               <div className="grid md:grid-cols-2 gap-4">
